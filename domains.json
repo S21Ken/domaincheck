@@ -1,0 +1,29 @@
+{
+  "timeout": 5,
+  "check_interval_minutes": 5,
+  "telegram": {
+    "enabled": true,
+    "bot_token": "8306092868:AAFGwUQAaimLf0Dechtu4dlmUdWsgd0bdK8",
+    "chat_id": "-1003382206577"
+  },
+  "domains": [
+    {
+      "url": "https://union.groupsasint.com/api",
+      "expected_status": 405
+    },
+
+    {
+      "url": "https://gamesands888sssxx.com",
+      "expected_status": 200
+    }
+
+
+    ,
+
+    {
+      "url": "https://gamesands888.com",
+      "expected_status": 200
+    }
+
+  ]
+}

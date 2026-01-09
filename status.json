@@ -1,0 +1,27 @@
+{
+    "https://union.groupsasint.com/api": {
+        "status": 405,
+        "ok": true,
+        "reason": "Method Not Allowed"
+    },
+    "https://gamesands888x.com": {
+        "status": "NO CONNECTION",
+        "ok": false,
+        "reason": "Unreachable"
+    },
+    "https://gamesands888.com": {
+        "status": 200,
+        "ok": true,
+        "reason": "OK"
+    },
+    "https://gamesantesterror.com": {
+        "status": "NO CONNECTION",
+        "ok": false,
+        "reason": "Unreachable"
+    },
+    "https://gamesands888sssxx.com": {
+        "status": "NO CONNECTION",
+        "ok": false,
+        "reason": "Unreachable"
+    }
+}
