@@ -12,22 +12,7 @@
       "expected_status": 405
     },
 
-    {
-      "url": "https://gamesands888sssxx11.com",
-      "expected_status": 200
-    }
-
-    ,
-
-    {
-      "url": "https://gamesands888sssxx222.com",
-      "expected_status": 200
-    }
-
-
-    ,
-
-    {
+          {
       "url": "https://gamesands888.com",
       "expected_status": 200
     }
