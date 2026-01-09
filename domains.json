@@ -1,6 +1,6 @@
 {
-  "timeout": 5,
-  "check_interval_minutes": 5,
+  "timeout": 10,
+  "check_interval_minutes": 10,
   "telegram": {
     "enabled": true,
     "bot_token": "8306092868:AAFGwUQAaimLf0Dechtu4dlmUdWsgd0bdK8",
