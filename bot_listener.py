@@ -1,7 +1,7 @@
 import requests
 import time
 import json
-from checker import check_domain, load_json, save_json
+from checker import check_domain
 
 CONFIG_FILE = "domains.json"
 STATUS_FILE = "status.json"
@@ -14,12 +14,16 @@ def get_updates(bot_token, offset=None):
     url = f"https://api.telegram.org/bot{bot_token}/getUpdates?timeout=100"
     if offset:
         url += f"&offset={offset}"
-    response = requests.get(url)
+    response = requests.get(url, timeout=10)
     return response.json()
 
 def send_message(bot_token, chat_id, message):
     url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
-    payload = {"chat_id": chat_id, "text": message, "parse_mode": "HTML"}
+    payload = {
+        "chat_id": chat_id,
+        "text": message,
+        "parse_mode": "HTML"
+    }
     requests.post(url, data=payload)
 
 def run_manual_check(config):
@@ -32,7 +36,11 @@ def run_manual_check(config):
     for domain in domains:
         url = domain["url"]
         result = check_domain(domain, timeout)
-        line = f"{url} | Expected: {domain['expected_status']} | Got: {result['status']} | {result['reason']}"
+        line = (
+            f"{url} | Expected: {domain['expected_status']} | "
+            f"Got: {result['status']} | {result['reason']}"
+        )
+
         if result["ok"]:
             ok_domains.append(line)
         else:
@@ -49,9 +57,10 @@ def run_manual_check(config):
 if __name__ == "__main__":
     config = load_config()
     BOT_TOKEN = config["telegram"]["bot_token"]
+
     print("Bot listener started...")
 
-    # 🟢 FIX: initialize update_id to latest so old messages are skipped
+    # Skip old messages
     updates = get_updates(BOT_TOKEN)
     if updates.get("result"):
         update_id = updates["result"][-1]["update_id"] + 1
@@ -60,6 +69,7 @@ if __name__ == "__main__":
 
     while True:
         updates = get_updates(BOT_TOKEN, update_id)
+
         if "result" in updates:
             for item in updates["result"]:
                 update_id = item["update_id"] + 1
@@ -72,7 +82,14 @@ if __name__ == "__main__":
 
                 if text.strip().lower() == "/check":
                     send_message(BOT_TOKEN, chat_id, "🖐️ Running manual check...")
-                    msgs = run_manual_check(config)
+
+                    # 🔥 reload latest domains.json EVERY TIME
+                    fresh_config = load_config()
+                    msgs = run_manual_check(fresh_config)
+
                     for m in msgs:
                         send_message(BOT_TOKEN, chat_id, m)
+
                     send_message(BOT_TOKEN, chat_id, "✅ Manual check completed!")
+
+        time.sleep(1)
